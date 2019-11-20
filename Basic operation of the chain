@@ -1,0 +1,199 @@
+#Basic operation of the chain
+class StringNode:
+    ############################
+    # 默认的初始化串结点的函数
+    ############################
+    def __init__(self):
+        self.data = None
+        self.next = None
+######################################################
+# 类名称：StringLink
+# 类说明：定义一个链串
+# 类释义：提供链串的相关操作
+######################################################
+class StringLink:
+    ############################
+    # 默认的初始化串的函数
+    ############################
+    def __init__(self):
+        self.head = StringNode()
+        self.tail = self.head
+        self.length = 0
+
+    ############################
+    # 判断串是否为空的函数
+    ############################
+    def IsEmptyString(self):
+        if self.head.next==None:
+            IsEmpty=True
+        else:
+            IsEmpty=False
+        return IsEmpty
+    ############################
+    # 遍历链串的函数
+    ############################
+    def StringTraverse(self):
+        if self.IsEmptyString():
+            print("链串为空，无法输出！")
+        else:
+            Tstring=self.head.next
+            while Tstring!=None:
+                print(Tstring.data,end=" ")
+                Tstring=Tstring.next
+    #################################
+    # 创建一个链式串的函数
+    #################################
+    def CreateString(self):
+        stringSH = input("\n请输入字符串，按回车结束输入：")
+        while self.length < len(stringSH):
+            Tstring = StringNode()
+            Tstring.data = stringSH[self.length]
+            self.tail.next=Tstring
+            self.tail=Tstring
+            self.length=self.length+1
+    ############################
+    # 复制链串的函数
+    ############################
+    def StringCopy(self, strSrc):
+        self.head = strSrc.head
+        self.tail = strSrc.tail
+        self.length = strSrc.length
+
+    ############################
+    # 链串联接的函数
+    ############################
+    def StringConcat(self, strSrc):
+        self.tail.next = strSrc.head.next
+        self.tail = strSrc.tail
+        self.length = self.length + strSrc.length
+ #############################
+    #链串的比较函数
+    #############################
+    def StringCompare(self,strSrc):
+        Tstring=self.head.next
+        TstringSrc=strSrc.head.next
+        while Tstring!=None and TstringSrc!=None:
+            if Tstring.data>TstringSrc.data:
+                print("大于")
+                return 1
+            elif Tstring.data<TstringSrc.data:
+                print("小于")
+                return -1
+            else:
+                Tstring=Tstring.next
+                TstringSrc=TstringSrc.next
+        if Tstring==None and TstringSrc ==None:
+            print("等于")
+        elif Tstring!=None and TstringSrc==None:
+            print("大于")
+        else:
+            print("小于")
+     ###############################
+     #从指定位置开始获取指定长度子串的函数
+     ###############################
+    def SubString(self,pos,length,strDst):
+        Tstring=self.head
+        iPos=0
+        while iPos<pos:
+            Tstring=Tstring.next
+            iPos=iPos+1
+            temp=strDst.head
+        while iPos<length+1:
+            TstrDst=StringNode()
+            TstrDst.data=Tstring.data
+            temp.next=TstrDst
+            temp=TstrDst
+            Tstring=Tstring.next
+            iPos=iPos+1
+    #####################################
+    #从指定位置开始删除指定长度子串的函数
+    #####################################
+    def StringDelete(self,pos,length):
+        if pos<=self.length and pos>=1 and length>0:
+            if pos+length-1>self.length:
+                print("无法删除指定的子串。")
+                return -1
+            else:
+                Tstring1=self.head
+                iPos=0
+                while iPos<pos-1:
+                    Tstring1=Tstring1.next
+                    iPos=iPos+1
+                Tstring2=Tstring1.next
+                if pos+length>self.length:
+                    Tstring1.next=None
+                else:
+                    while iPos<pos+length-1:
+                        Tstring2=Tstring2.next
+                        iPos=iPos+1
+                    Tstring1.next=Tstring2
+                self.length=self.length-length
+        else:
+            print("无法删除指定的子串。")
+     #################################
+     # 从指定位置后插入指定子串的函数
+     #################################
+    def StringInsert(self, pos, strSrc):
+        if pos > self.length or pos < 0:
+            print("在字符串中找不到指定位置插入。")
+        else:
+            Tstring = self.head
+            iPos = 0
+            while iPos < pos:
+                Tstring = Tstring.next
+                iPos = iPos + 1
+            if Tstring.next == None:
+                Tstring.next = strSrc.head.next
+                strSrc.head.next = None
+            else:
+                TstringSrc = strSrc.head
+                while TstringSrc.next != None:
+                    TstringSrc = TstringSrc.next
+                TstringSrc.next = Tstring.next
+                Tstring.next = strSrc.head.next
+                strSrc.head.next = None
+            self.length = self.length + strSrc.length
+stringDst = StringLink()
+stringDst.CreateString()
+print("stringDst为：", end='')
+stringDst.StringTraverse()
+stringDst.IsEmptyString()
+################
+# 创建源字符串
+###############
+stringSrc=StringLink()
+stringSrc.CreateString()
+print("stringSrc为：",end='')
+stringSrc.StringTraverse()
+
+################
+# 复制字符串
+###############
+stringDst.StringCopy(stringSrc)
+print("\nstringDst复制stringSrc后的串为：",end='')
+stringDst.StringTraverse()
+# 比较字符串
+stringDst.StringCompare(stringSrc)
+################
+# 连接字符串
+###############
+# stringDst.StringConcat(stringSrc)
+# print("\n连接的结果为：",end='')
+# stringDst.StringTraverse()
+#截取字符串
+# position=int(input("请输入要从第几个位置截取："))
+# length=int(input("请输入要截取的长度："))
+# stringDst.SubString(position,length,)
+#删除字符串
+print("...开始删除子串...")
+position=int(input("请输入要从第几个位置删除："))
+lenth=int(input("请输入要删除的长度："))
+print("...正在删除...")
+stringDst.StringDelete(position,lenth)
+stringDst.StringTraverse()
+#插入字符串串
+print("...开始插入串...")
+position=int(input("请输入需要从第几个位置插入："))
+StrSrc=input("请输入需要插入的字符串：")
+stringDst.StringInsert(position,StrSrc)
+stringDst.StringTraverse()
